@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "AzureBIDev"
+		},
+		"ADFBIDEVOnPrem_connectionString": {
+			"value": ""
+		},
+		"ADFCycles_connectionString": {
+			"value": ""
+		},
+		"OnPremfileLinkService_password": {
+			"value": ""
+		},
+		"linkserviceADFDevStorage_connectionString": {
+			"value": ""
+		},
+		"LS_AzureBIDEVBlobStorage_properties_typeProperties_connectionString_secretName": {
+			"value": "sec-azurebidevstorage-connectionString"
+		},
+		"LS_KV_AzureBIDEV_properties_typeProperties_baseUrl": {
+			"value": "https://RGBIDEV.vault.azure.net/"
+		},
+		"OnPremfileLinkService_properties_typeProperties_host": {
+			"value": "C:\\PowerBI\\"
+		},
+		"OnPremfileLinkService_properties_typeProperties_userId": {
+			"value": "LAPTOP-JO04ITQ5\\Amit Rathore"
+		},
+		"ADFSQLDB_properties_privateLinkResourceId": {
+			"value": "/subscriptions/344d0f8e-c80e-4498-9bda-0941b8ffccad/resourceGroups/AzureBIDev/providers/Microsoft.Sql/servers/adfbidev"
+		},
+		"ADFSQLDB_properties_groupId": {
+			"value": "sqlServer"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
