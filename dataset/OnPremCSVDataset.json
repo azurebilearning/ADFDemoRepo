@@ -1,0 +1,30 @@
+{
+	"name": "OnPremCSVDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OnPremfileLinkService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "Maven Cycles Gender.csv",
+				"folderPath": "Maven+Cycles_Raw+Data+Files/Raw Data Files"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

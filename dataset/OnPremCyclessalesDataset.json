@@ -1,0 +1,64 @@
+{
+	"name": "OnPremCyclessalesDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADFBIDEVOnPrem",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Transaction_Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Stock_Date",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Invoice_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "Age_Group_Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Customer_Gender_Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Region_Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Product_Key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quantity_Sold",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CycleSales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

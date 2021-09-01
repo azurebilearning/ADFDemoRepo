@@ -1,0 +1,25 @@
+{
+	"name": "OutputDevDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkserviceADFDevStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Maven Cycles Sales.csv",
+				"folderPath": "output",
+				"container": "adfdemo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

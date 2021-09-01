@@ -1,0 +1,16 @@
+{
+	"name": "ADFBIDEVOnPrem",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=LAPTOP-JO04ITQ5;initial catalog=CyclesStore;user id=sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyOTU1ZDFjMS01ZmZlLTQxY2EtYTQ3ZC03MjE5NmI3OWQ1MjIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimeOnprem",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

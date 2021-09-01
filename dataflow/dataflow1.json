@@ -1,0 +1,28 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "OutputDevDataset",
+						"type": "DatasetReference"
+					},
+					"name": "SourceDataset"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ADFCyclesDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "DestDataset"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tTransaction_Date as date,\n\t\t{Stock_ Date} as date,\n\t\tInvoice_ID as string,\n\t\tAge_Group_Key as short,\n\t\tCustomer_Gender_Key as short,\n\t\tRegion_Key as short,\n\t\tProduct_Key as short,\n\t\tQuantity_Sold as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SourceDataset\nSourceDataset sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID as integer,\n\t\tTransaction_Date as timestamp,\n\t\tStock_Date as timestamp,\n\t\tInvoice_ID as string,\n\t\tAge_Group_Key as integer,\n\t\tCustomer_Gender_Key as integer,\n\t\tRegion_Key as integer,\n\t\tProduct_Key as integer,\n\t\tQuantity_Sold as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tTransaction_Date,\n\t\tStock_Date = {Stock_ Date},\n\t\tInvoice_ID,\n\t\tAge_Group_Key,\n\t\tCustomer_Gender_Key,\n\t\tRegion_Key,\n\t\tProduct_Key,\n\t\tQuantity_Sold\n\t)) ~> DestDataset"
+		}
+	}
+}

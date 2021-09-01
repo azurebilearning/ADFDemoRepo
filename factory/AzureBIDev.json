@@ -1,0 +1,9 @@
+{
+	"name": "AzureBIDev",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "38c9adf0-adac-41f8-82e4-f72328c542fb",
+		"tenantId": "91e62426-8058-4f63-8d1d-ed06a25bcc7c"
+	}
+}

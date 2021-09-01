@@ -1,0 +1,17 @@
+{
+	"name": "OnPremfileLinkService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\PowerBI\\",
+			"userId": "LAPTOP-JO04ITQ5\\Amit Rathore",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwMjg0MzFmOC02MTcxLTQxYjEtOTVhNC0yMDkxNDdhZjkzMmEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimeOnprem",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

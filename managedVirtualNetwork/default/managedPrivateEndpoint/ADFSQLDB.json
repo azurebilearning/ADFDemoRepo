@@ -1,0 +1,7 @@
+{
+	"name": "ADFSQLDB",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/344d0f8e-c80e-4498-9bda-0941b8ffccad/resourceGroups/AzureBIDev/providers/Microsoft.Sql/servers/adfbidev",
+		"groupId": "sqlServer"
+	}
+}

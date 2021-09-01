@@ -1,0 +1,11 @@
+{
+	"name": "LS_KV_AzureBIDEV",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://RGBIDEV.vault.azure.net/"
+		}
+	}
+}

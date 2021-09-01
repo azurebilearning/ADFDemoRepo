@@ -1,0 +1,23 @@
+{
+	"name": "LS_AzureBIDEVBlobStorage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Link Service for AzureBIDEVBlobStorage",
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KV_AzureBIDEV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "sec-azurebidevstorage-connectionString"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

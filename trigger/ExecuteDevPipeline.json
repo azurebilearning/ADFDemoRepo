@@ -1,0 +1,25 @@
+{
+	"name": "ExecuteDevPipeline",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "LoadFile",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 5,
+				"startTime": "2021-08-24T19:08:00",
+				"endTime": "2021-08-25T19:15:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
