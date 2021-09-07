@@ -444,6 +444,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "linkserviceADFDevStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "text.csv",
+						"folderPath": "Input",
+						"container": "adfdemo"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/linkserviceADFDevStorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DevInputDataSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -685,6 +713,115 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Email_AlertDemo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Data Source to Sink",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Send Mail",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Copy Data Source to Sink",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://prod-78.eastus.logic.azure.com:443/workflows/6d5d093bbeb545dfbb3ca76217fb78e9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=IR8b27Rm1ww1g07BUcd71_UrBkZnquYA0z2dtjC77Rg",
+							"connectVia": {
+								"referenceName": "AutoResolveIntegrationRuntime",
+								"type": "IntegrationRuntimeReference"
+							},
+							"method": "POST",
+							"headers": {
+								"Content-type": "application/json"
+							},
+							"body": {
+								"value": "{\n\"Pipeline\":\"@{pipeline().Pipeline}\",\n\"ErrorMessage\": \"@{activity('Copy Data Source to Sink').Error.Message}\",\n\"DatafactoryName\" :\"@{pipeline().DataFactory}\",\n\"RunID\":\"@{pipeline().RunId}\"\n}",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_source')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LoadFile')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -759,144 +896,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DevInputDataSet')]",
 				"[concat(variables('factoryId'), '/datasets/OutputDevDataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Onpremdrivetocloud')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Localtocloud",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 1
-										},
-										"sink": {
-											"type": "String",
-											"physicalType": "String",
-											"ordinal": 1
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 2
-										},
-										"sink": {
-											"type": "String",
-											"physicalType": "String",
-											"ordinal": 2
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "OnPremCSVDataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DevInputDataSet",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"parameters": {
-					"ServerName": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2021-08-26T19:40:29Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/OnPremCSVDataset')]",
-				"[concat(variables('factoryId'), '/datasets/DevInputDataSet')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "OutputDevDataset",
-								"type": "DatasetReference"
-							},
-							"name": "SourceDataset"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADFCyclesDataSet",
-								"type": "DatasetReference"
-							},
-							"name": "DestDataset"
-						}
-					],
-					"transformations": [],
-					"script": "source(output(\n\t\tTransaction_Date as date,\n\t\t{Stock_ Date} as date,\n\t\tInvoice_ID as string,\n\t\tAge_Group_Key as short,\n\t\tCustomer_Gender_Key as short,\n\t\tRegion_Key as short,\n\t\tProduct_Key as short,\n\t\tQuantity_Sold as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SourceDataset\nSourceDataset sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID as integer,\n\t\tTransaction_Date as timestamp,\n\t\tStock_Date as timestamp,\n\t\tInvoice_ID as string,\n\t\tAge_Group_Key as integer,\n\t\tCustomer_Gender_Key as integer,\n\t\tRegion_Key as integer,\n\t\tProduct_Key as integer,\n\t\tQuantity_Sold as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tTransaction_Date,\n\t\tStock_Date = {Stock_ Date},\n\t\tInvoice_ID,\n\t\tAge_Group_Key,\n\t\tCustomer_Gender_Key,\n\t\tRegion_Key,\n\t\tProduct_Key,\n\t\tQuantity_Sold\n\t)) ~> DestDataset"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/OutputDevDataset')]",
-				"[concat(variables('factoryId'), '/datasets/ADFCyclesDataSet')]"
 			]
 		}
 	]
